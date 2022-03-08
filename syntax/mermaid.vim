@@ -3,27 +3,33 @@ if exists('b:current_syntax')
   unlet b:current_syntax
 endif
 
-syntax match seqOperator /\v\-+\>+/ nextgroup=seqLabel
-syntax match seqSeprator /\v:/ nextgroup=seqMessage
+syntax match mmdOperator /\v\-+\>+(\-|\+)?/ nextgroup=mmdLabel
+syntax match mmdSeparator /\v:/ nextgroup=mmdMessage
 
-syntax match seqLabel    /\v\w+/ nextgroup=seqOperator,seqSeprator
-syntax match seqMessage  /\v\s*[^\n]*\n/ nextgroup=seqLabel,seqNote,seqParticipant,seqTitle
+syntax match mmdLabel    /\v\w+/ nextgroup=mmdOperator,mmdSeparator
+syntax match mmdMessage  /\v[^\n]*\n/ nextgroup=mmdStartOfLine
+syntax match mmdStartOfLine  /\v^\s*/ nextgroup=mmdLabel,mmdNote,mmdParticipant,mmdTitle
 
-syntax match seqTitle    /\s*\ctitle/ nextgroup=seqMessage
-syntax match seqParticipant /\s*\cparticipant / nextgroup=seqLabel
-syntax match seqNote     /\s*\cnote left of / nextgroup=seqLabel
-syntax match seqNote     /\s*\cnote right of / nextgroup=seqLabel
-syntax match seqNote     /\s*\cnote over / nextgroup=seqLabel
+syntax match mmdGraph /graph$/ nextgroup=mmdStartOfLine
+syntax match mmdSequenceDiagram /sequenceDiagram$/ nextgroup=mmdStartOfLine
+syntax match mmdTitle    /\s*\ctitle/ nextgroup=mmdMessage
+syntax match mmdParticipant /\s*\c\(participant\|actor\) / nextgroup=mmdLabel
+syntax match mmdNote     /\s*\cnote left of / nextgroup=mmdLabel
+syntax match mmdNote     /\s*\cnote right of / nextgroup=mmdLabel
+syntax match mmdNote     /\s*\cnote over / nextgroup=mmdLabel
+syntax match mmdComment /\s*%%.*$/ nextgroup=mmdStartOfLine
 
-highlight link seqKeyword Keyword
-highlight link seqTitle Keyword
-highlight link seqParticipant Keyword
-highlight link seqNote Keyword
+highlight link mmdKeyword Keyword
+highlight link mmdTitle Keyword
+highlight link mmdSequenceDiagram Keyword
+highlight link mmdParticipant Keyword
+highlight link mmdNote Keyword
 
-highlight link seqLabel Function
-highlight link seqOperator Label
-highlight link seqSeprator Label
-highlight link seqMessage String
+highlight link mmdLabel Function
+highlight link mmdOperator Label
+highlight link mmdSeparator Keyword
+highlight link mmdMessage String
+highlight link mmdComment Comment
 
 if exists('s:current_syntax')
   let b:current_syntax = s:current_syntax
