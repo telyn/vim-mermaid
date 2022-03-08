@@ -28,5 +28,5 @@ highlight link seqMessage String
 if exists('s:current_syntax')
   let b:current_syntax = s:current_syntax
 else
-  let b:current_syntax = 'sequence'
+  let b:current_syntax = 'mermaid'
 endif
